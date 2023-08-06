@@ -1,49 +1,36 @@
-import asyncio
-import httpx
-from bs4 import BeautifulSoup
-import re
-
-urls = ["http://books.tosefscrape.com/catalogue/page-2.html",
-        "http://books.toscrape.com/catalogue/page-2.html",
-        "http://books.toscrape.com/catalogue/page-3.html",
-        "http://books.toscrape.com/catalogue/page-4.html"]
+import pickle
+from tfidf import TFIDF
+import pandas as pd
 
 
-async def get_urls(soups):
-    urls = set()
-    for soup in soups:
-        for link in soup.find_all('a', {'href' : re.compile("(?:http)")}):
-            urls.add(link.get('href'))
-    return list(urls)
 
-async def fetch():
-    async with httpx.AsyncClient() as client:
-        tasks = []
-        # for url in urls:
-        #     try:
-        #         tasks.append(client.get(url))
-        #     except:
-        #         print("error con url: ",url)
-        tasks = (client.get(url) for url in urls)
-        print(type(tasks))
-        try:
-            reqs = await asyncio.gather(*tasks)
-        except:
-            print("Error!")
-    
-    
-    soups = [BeautifulSoup(req, 'html.parser') for req in reqs]
+datos_path = "data/textos_2023_08_0111_50_30.json"
+
+df = pd.read_json(datos_path)
+urls = df["metadata"].apply(lambda x: x.get("url"))
+keywords = df["metadata"].apply(lambda x: x.get("keywords"))
+
+
+with open('model_2023_08_0111_50_30_4.pickle', 'rb') as file:  # open a text file
+    model:TFIDF = pickle.load(file) # serialize the list
     
     
 
-    print("Finished")
+def realizar_consultas(query:str):
+    indices = model.query_documents(query)
+    print("\nConsulta 1:", query)
+    print("Respuestas:\n")
+    print(indices)
+    documents_most_similar = [urls[idx] for idx in indices]
+    print(df["document"][list(indices.keys())[0]])
+    print(documents_most_similar)
     
-    print("Finished")
     
     
-    
-    
-    
-    
+
 if __name__ == "__main__":
-    asyncio.run(fetch())
+    
+    query = "Qué es celex"
+    results = model.query_documents(query)
+
+    realizar_consultas(query)

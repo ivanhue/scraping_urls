@@ -1,2 +1,10 @@
 httpx
+bs4
 snakeviz
+nltk
+# pycryptodome==3.15.0
+validators
+pandas
+requests
+PyPDF2
+scikit-learn
