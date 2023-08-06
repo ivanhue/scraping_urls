@@ -161,7 +161,7 @@ async def web_crawler():
         all_urls_set.update(new_urls)
         
         # Contar las nuevas paginas por visitar.
-        count += len(new_urls) #  + len(unvisited_response)
+        count += len(new_urls)
         
         # Checar si terminó
         finished = (len(new_urls) == 0)
@@ -194,16 +194,10 @@ async def update_data():
     path_data = BASE_DE_DATOS
     df = pd.read_json(path_data)
     urls = df["metadata"].apply(lambda x: x.get("url"))
-    # keywords = df["metadata"].apply(lambda x: x.get("keywords"))
-    # patron = re.compile()
-    # if "https://www.cseuami.org/index.php/cambio-carrera" in df["metadata"].apply(lambda x: x.get("url")):
-    # search_url = "https://cbi.izt.uam.mx/coddaa/index.php/fisica-pe"
     add_urls = []
     for new_url in NUEVAS_PAGINAS:
-            # Checar si no existe el nuevo url.
+        # Checar si no existe el nuevo url.
         if not new_url in urls.values:
-            
-        # index = [i for i, x in enumerate((urls.values==new_url)) if x][0]
             print()
             add_urls.append(new_url)
         else:
@@ -232,30 +226,3 @@ async def update_data():
     # 3. Write json file
     with open(path_data, "w") as file:
         json.dump(data, file, indent=4)
-
-
-# @_check_performance
-def test():
-    
-    data = asyncio.run(web_crawler())
-    print(len(data))
-    # print("Test web crawler")
-    # task_web_crawler = asyncio.create_task(web_crawler())
-    # data = await task_web_crawler
-    # print(len(data))
-    return data
-
-
-if __name__ == "__main__":
-    # print("Test web_crawler")
-    # paginas = ["https://www.celex.izt.uam.mx/instructivocelex.pdf",
-    #         "http://books.toefsefscrape.com/catalogue/page-2.html",
-    #         "http://books.toscrape.com/catalogue/page-2.html",
-    #         "http://books.toscrape.com/catalogue/page-3.html",
-    #         "http://books.toscrape.com/catalogue/page-4.html"]
-
-    # asyncio.run(update_data())
-    # test()
-    # asyncio.run(test())
-    
-    ...

@@ -11,8 +11,8 @@ urls = df["metadata"].apply(lambda x: x.get("url"))
 keywords = df["metadata"].apply(lambda x: x.get("keywords"))
 
 
-with open('model_2023_08_0111_50_30_4.pickle', 'rb') as file:  # open a text file
-    model:TFIDF = pickle.load(file) # serialize the list
+with open('model_2023_08_0111_50_30_4.pickle', 'rb') as file: 
+    model:TFIDF = pickle.load(file) 
     
     
 

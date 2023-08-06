@@ -20,7 +20,6 @@ def check_performance(function):
         >>> snakeviz file.profile
     """
     def performance():
-        # os.system('cls')
         profiler = cProfile.Profile()
         profiler.enable()
         

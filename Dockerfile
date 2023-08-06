@@ -1,12 +1,6 @@
 FROM python:3.11-slim
 
-# ADD /src/pruebas.py .
-
-
-# COPY requirements.txt .
 ADD /src/run.py .
-
-# WORKDIR /app
 COPY . .
 
 
